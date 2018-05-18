@@ -34,7 +34,7 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 - SoberWP `controller.php loader()` will `add_filter('sage/template/' . $template . '-data/data')` for all controllers (filter string/controller) with a method that return, (among other datas) the controller data we want
 - Sage/WP will normally get `single-product.php` template (changed as `single-product.blade.php` in our `add_filter('template_include')` update) as template hierarchy rules
 - Sage will `apply_filter('sage/template/' . $template . '-data/data')` (it uses `body_class()` to find the `$template` name to match the correct controllers with current template) to add data to the `blade->render` from `template_include` filter (that we override but just for the "single-product" and "archive-product" replace update)
-- ATM (we are in THIS file), the data are defined in `get_defined_data()` (as rendered from filter `template_include` with controllers data), so WE HAVE THE DATA HERE
+- ATM (we are in `resources/views/woocommerce/single-product.blade.php`), the data are defined in `get_defined_data()` (as rendered from filter `template_include` with controllers data), so WE HAVE THE DATA HERE
 - from here, we call `helpers::template()` [We don't have HTMl here! we call a method to output Woocommerce content] using `woocommerce` as template, and we send our vars (from `get_dedined_vars()`)
 - `woocommerce.blade.php` will call `App\woocommerce_content(get_defined_vars())` ===> HERE we lose data if we don't pass `get_defined_vars()` as parameter
     - `App\woocommerce_content()` is overrided from Woocommerce `wp-content/plugins/woocommerce/includes/wc-template-functions.php`

@@ -14,7 +14,7 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 - Sources:
   - [discourse.roots.io](https://discourse.roots.io/t/woocommerce-blade-sage-9/8449/17)
   - [discourse.roots.io](https://discourse.roots.io/t/any-working-example-of-sage-9-latest-sage-9-0-0-beta-4-with-woocommerce-3-1-1/10099/17)
-  - [github](https://github.com/MarekVrofski/Sage-Woocommerce) (Big thanks at @MarekVrofski)
+  - [github](https://github.com/MarekVrofski/Sage-Woocommerce) (Big thanks again at [@MarekVrofski](https://github.com/MarekVrofski/))
   
 ## Changelog
 - 18/05/2018 - tested with

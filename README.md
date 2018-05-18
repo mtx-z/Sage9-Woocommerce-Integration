@@ -2,11 +2,11 @@
 How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 
 ## Introduction
-- This repo contain needed edits/adds to make Sage 9 works with Woocommerce
+- This repo contain needed edits/adds to make Sage 9.0.1 works with Woocommerce 3.3.5
 - This includes: 
   - Working Blade Woocommerce templates
     - Override using classic .php file, or rename to .blade.php to use some blade (SoberWP controllers variable are available in both case)
-  - Working SoberWP controllers with Woocommerce templates
+  - Working SoberWP controllers with Woocommerce blade (or php) templates
     - Get \App global default Sage controller variables available in Woocommerce Blade templates
     - Create custom controllers for Woocommerce templates with same SoberWP/Template hierarchy naming logic (eg: single-product controller)
   

@@ -59,3 +59,17 @@ add_filter('wc_get_template_part', function ($template, $slug, $name, $args) {
 	}
 	return $template;
 }, PHP_INT_MAX, 4);
+
+/**
+ * Render woocommerce template parts using Blade
+ * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
+ *
+ * Changed: Woocommerce support to use .balde.php templates when using template parts
+ */
+add_filter('wc_get_template', function ($located, $template_name, $args, $template_path, $default_path) {
+	$bladeTemplate = locate_template([$template_name, 'resources/views/' . WC()->template_path() . $template_name]);
+	if ($bladeTemplate) {
+		return template_path($bladeTemplate, $args);
+	}
+	return $located;
+}, PHP_INT_MAX, 5);

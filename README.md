@@ -8,6 +8,7 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
     - Override using classic .php file, or rename to .blade.php to use some blade (SoberWP controllers variable are available in both case)
   - Working SoberWP controllers with Woocommerce templates
     - Get \App global default Sage controller variables available in Woocommerce Blade templates
+    - Create custom controllers for Woocommerce templates with same SoberWP/Template hierarchy naming logic (eg: single-product controller)
   
 ## Sources and supports
 - I haven't tested all yet, please feel free to report any bug or improvement in issues and I'll fix
@@ -41,12 +42,16 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
     - to add a parameter to pass `$args`, which are our datas
 - `App\woocommerce_content()` will output correct Woocommerce template hierarchy, passing `$args` to `wc_get_template_part()` it calls
 
-## Note
+## Future notes
 - few test with [SoberWP 2.0.1](https://github.com/soberwp/controller/releases)
   - Few errors as default Namespace changes from `\App` to `\App\Controller`
   - But it should be fixable when Sage update to SoberWP Controller `2.0.1`
+  - Will make a new release when Sage includes SoberWP controllers `^2.0.0`
 
-
+## Disclaimer
+ - Absolutely not tested with all Woocommerce templates and features
+  - Checkout, My accounts, Emails... may needs more edits
+  - Please test before using in production (I do and it runs smoothly tho)
 
 
 

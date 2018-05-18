@@ -1,5 +1,5 @@
 # Sage 9.0.1 Woocommerce (3.3.5) Integration
-How to use Woocommerce (3.3.5) with Sage 9.0.0 (Blade + SoberWP controllers)
+How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 
 ## Introduction
 - This repo contain needed edits/adds to make Sage 9 works with Woocommerce

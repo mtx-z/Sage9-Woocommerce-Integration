@@ -2,16 +2,16 @@
 How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 
 ## Features
-- This repo contain needed edits/adds to make Sage 9.0.1 works with Woocommerce 3.3.5
-- This includes: 
-  - Working Blade Woocommerce templates
-    - Override using classic .php file, or rename to .blade.php to use some blade (SoberWP controllers variable are available in both case)
-    - place your woocommerce templates override in /your-sage-theme/resources/views/woocommerce/
+- Includes: 
+  - Blade Woocommerce templates
+    - Override using default .php file, or rename to .blade.php to use blade (SoberWP controllers variable are available in both case)
+    - place your woocommerce templates overrides in /your-sage-theme/resources/views/woocommerce/
       - eg: `/plugins/woocommerce/templates/content-single-product.php` => `/your-sage-theme/resources/views/woocommerce/content-single-product.blade.php`
       - eg: `/plugins/woocommerce/templates/single-product/meta.php` => `/your-sage-theme/resources/views/woocommerce/single-product/meta.blade.php`
-  - Working SoberWP controllers with Woocommerce blade (or php) templates
+      - still need test for sub-templates, but seems to works with `meta.blade.php`
+  - SoberWP controllers with Woocommerce blade (or php) templates
     - Get \App global default Sage controller variables available in Woocommerce Blade templates
-    - Create custom controllers for Woocommerce templates with same SoberWP/Template hierarchy naming logic (eg: single-product controller)
+    - Create custom controllers for Woocommerce templates with same Woocommerce/SoberWP template/naming hierarchy naming logic (eg: `single-product` controller for `single-product.blade.php` then `content-single-product.blade.php` template)
   
 ## Sources and supports
 - I haven't tested all yet, please feel free to report any bug or improvement in issues and I'll fix
@@ -33,16 +33,16 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
   - `template_include`: edit `single-product.php` and `archive-product.php` template path to `/resources/views/woocommerce/*.blade.php` (then retrieve controller data and render blade as usual)
   - `wc_get_template_part`: edit woocommerce template method to look for blade files then php files
   - `wc_get_template`: tell woocommerce to get template from `resources/views/`
-- those templates includes woocommerce.blade.php templates
-- woocommerce.blade.php calls our overrided App\woocommerce_content(get_defined_vars()) that output woocommerce content
+- `single-product.php` and `archive-product.php` includes `woocommerce.blade.php` template
+- `woocommerce.blade.php` calls our overrided `App\woocommerce_content(get_defined_vars())` that output Woocommerce content
 
 ### SoberWP controllers data for Woocommerce
 - SoberWP `Controller.php` (`new Loader()`) will parse all controller and methods and store them using "slugified" `$template` name as keys in `$this->instance` (the `controller::class` object is stored)
 - SoberWP `controller.php loader()` will `add_filter('sage/template/' . $template . '-data/data')` for all controllers (filter string/controller) with a method that return, (among other datas) the controller data we want
 - Sage/WP will normally get `single-product.php` template (changed as `single-product.blade.php` in our `add_filter('template_include')` and `add_filter('wc_get_template_part')` updates targeted in `/resources/views` thanks to our `add_filter('wc_get_template')`) as template hierarchy rules
-- Sage will `apply_filter('sage/template/' . $template . '-data/data')` (it uses `body_class()` to find the `$template` name to match the correct controllers with current template) to add data to the `blade->render` (that also render sub-templates that could also need controller data) from `template_include` filter (that we override but just for the "single-product" and "archive-product" replace update)
-- ATM (we are in `resources/views/woocommerce/single-product.blade.php`), the data are defined in `get_defined_data()` (as rendered from filter `template_include` with controllers data), so WE HAVE THE DATA HERE
-- from here, we call `helpers::template()` [We don't have HTMl here! we call a method to output Woocommerce content] using `woocommerce` as template, and we send our vars (from `get_dedined_vars()`)
+- Sage will `apply_filter('sage/template/' . $template . '-data/data')` (it uses `body_class()` to find the `$template` name to match the correct controllers with current template) to add data to the `blade->render` (that also render sub-templates that could also need controller data) from `template_include` filter (that we override but just for the "single-product.php" and "archive-product.php" replace update, and load controller data)
+- At the moment, (we are in `resources/views/woocommerce/single-product.blade.php`), data are defined in `get_defined_data()` (as rendered from filter `template_include` with controllers data), so WE HAVE THE DATA HERE
+- from here, we call `helpers::template()` (We don't have HTMl here, we call a method to output Woocommerce content) using `woocommerce` as template, and we send our vars (from `get_dedined_vars()`) to it
 - `woocommerce.blade.php` will call `App\woocommerce_content(get_defined_vars())` ===> HERE we lose data if we don't pass `get_defined_vars()` as parameter
     - `App\woocommerce_content()` is overrided from Woocommerce `wp-content/plugins/woocommerce/includes/wc-template-functions.php`
     - to add a parameter to pass `$args`, which are our datas
@@ -62,7 +62,24 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 - **Test** before usage in production (I do and it runs smoothly tho, but it's not a complex store)
 - still WIP, issues and improvement reports are welcomed !
 
+## DEBUG
+#### SoberWP
+```
+@debug('dump')
+@debug('hierarchy')
+@debug('controller')
+@debug
+```
 
+#### get hooked methods for given filter
+```
+function print_filters_for( $hook = "" ) {
+global $wp_filter;
+    if( empty( $hook ) || !isset( $wp_filter[$hook] ) )
+        return;
 
-
-
+    print "<pre>";
+    print_r( $wp_filter[$hook] );
+    print "</pre>";
+}
+```

@@ -7,7 +7,8 @@ use Sober\Controller\Controller;
 /**
  * EXAMPLE ONLY
  *
- * Variables of App controller will be attached to all Woocommerce template !
+ * ** Variables of App controller will be attached to all Woocommerce template: {{$siteName}}
+ *
  * Class App
  * @package App
  */

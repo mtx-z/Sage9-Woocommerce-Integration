@@ -4,7 +4,7 @@ namespace App;
 
 /**
  * Theme setup
- * THIS EXIST IN YOUR SAGE THEME ! Just add the woocommerce support line
+ * THIS EXIST IN YOUR SAGE THEME ! Just add the woocommerce theme support line
  */
 add_action('after_setup_theme', function () {
 	/**
@@ -25,6 +25,7 @@ add_action('after_setup_theme', function () {
  *
  * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
  * Changed: added $args parameter, and edited wc_get_template_part() to use $args
+ * from: wp-content/plugins/woocommerce/includes/wc-template-functions.php:l549 (v3.3.5)
  */
 function woocommerce_content($args = [])
 {

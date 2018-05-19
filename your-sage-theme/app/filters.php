@@ -3,7 +3,7 @@
 namespace App;
 
 /**
- * Render page using Blade
+ * Render page using Blade (and get data from controller from sage/template/{$class}/data filter)
  * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
  * Changed: fix for single-product.php and archive-product to get correct template
  * todo: is there other "woocommerce root" template that should be hot fixed here ?

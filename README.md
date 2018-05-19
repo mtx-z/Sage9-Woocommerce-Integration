@@ -18,7 +18,7 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 - Sources:
   - [discourse.roots.io](https://discourse.roots.io/t/woocommerce-blade-sage-9/8449/17)
   - [discourse.roots.io](https://discourse.roots.io/t/any-working-example-of-sage-9-latest-sage-9-0-0-beta-4-with-woocommerce-3-1-1/10099/17)
-  - [github](https://github.com/MarekVrofski/Sage-Woocommerce) (Big thanks again at [@MarekVrofski](https://github.com/MarekVrofski/))
+  - [github](https://github.com/MarekVrofski/Sage-Woocommerce) (much thanks again to [@MarekVrofski](https://github.com/MarekVrofski/) for his improvements)
   
 ## Changelog
 - 18/05/2018 - tested with
@@ -29,15 +29,19 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
     
 ## How
 ### Blade for Woocommerce
-- we add_filter on 'template_include' to edit 'single-product' and 'archive-product' template path to .blade
+- we add_filter on 
+  - `template_include`: edit `single-product.php` and `archive-product.php` template path to `/resources/views/woocommerce/*.blade.php` (then retrieve controller data and render blade as usual)
+  - `wc_get_template_part`: edit woocommerce template method to look for blade files then php files
+  - `wc_get_template`: tell woocommerce to get template from `resources/views/`
+  - edit `single-product.php` and `archive-product` template path to `/resources/views/woocommerce/*.blade.php`
 - those templates includes woocommerce.blade.php templates
 - woocommerce.blade.php calls our overrided App\woocommerce_content(get_defined_vars()) that output woocommerce content
 
 ### SoberWP controllers data for Woocommerce
 - SoberWP `Controller.php` (`new Loader()`) will parse all controller and methods and store them using "slugified" `$template` name as keys in `$this->instance` (the `controller::class` object is stored)
 - SoberWP `controller.php loader()` will `add_filter('sage/template/' . $template . '-data/data')` for all controllers (filter string/controller) with a method that return, (among other datas) the controller data we want
-- Sage/WP will normally get `single-product.php` template (changed as `single-product.blade.php` in our `add_filter('template_include')` and `add_filter('wc_get_template_part')` updates targeted in `/resources/views` thanks to our `add_filter('wc_get_template')` as template hierarchy rules
-- Sage will `apply_filter('sage/template/' . $template . '-data/data')` (it uses `body_class()` to find the `$template` name to match the correct controllers with current template) to add data to the `blade->render` from `template_include` filter (that we override but just for the "single-product" and "archive-product" replace update)
+- Sage/WP will normally get `single-product.php` template (changed as `single-product.blade.php` in our `add_filter('template_include')` and `add_filter('wc_get_template_part')` updates targeted in `/resources/views` thanks to our `add_filter('wc_get_template')`) as template hierarchy rules
+- Sage will `apply_filter('sage/template/' . $template . '-data/data')` (it uses `body_class()` to find the `$template` name to match the correct controllers with current template) to add data to the `blade->render` (that also render sub-templates that could also need controller data) from `template_include` filter (that we override but just for the "single-product" and "archive-product" replace update)
 - ATM (we are in `resources/views/woocommerce/single-product.blade.php`), the data are defined in `get_defined_data()` (as rendered from filter `template_include` with controllers data), so WE HAVE THE DATA HERE
 - from here, we call `helpers::template()` [We don't have HTMl here! we call a method to output Woocommerce content] using `woocommerce` as template, and we send our vars (from `get_dedined_vars()`)
 - `woocommerce.blade.php` will call `App\woocommerce_content(get_defined_vars())` ===> HERE we lose data if we don't pass `get_defined_vars()` as parameter
@@ -45,16 +49,17 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
     - to add a parameter to pass `$args`, which are our datas
 - `App\woocommerce_content()` will output correct Woocommerce template hierarchy, passing `$args` to `wc_get_template_part()` it calls
 
-## Future notes
+## Todo
 - few test with [SoberWP 2.0.1](https://github.com/soberwp/controller/releases)
   - Few errors as default Namespace changes from `\App` to `\App\Controller`
-  - But it should be fixable when Sage update to SoberWP Controller `2.0.1`
-  - Will make a new release when Sage includes SoberWP controllers `^2.0.0`
-- Lot of Woocommerce features to test
+  - should be fixable when Sage update to SoberWP Controller `2.0.1`
+- test archive-product.blade.php and controller
+- Lot of Woocommerce features and templates (and controller variables passing) to test...
+- controllers variables to sub templates (& nested)
 
 ## Careful
 - Absolutely not tested with all Woocommerce templates and features
-  - Checkout, My accounts, Emails... may needs more edits
+  - Checkout, My accounts, Emails, nested templates, Woocommerce plugins templates... need more tests
 - **Test** before usage in production (I do and it runs smoothly tho, but it's not a complex store)
 - still WIP, issues and improvement reports are welcomed !
 

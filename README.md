@@ -33,7 +33,6 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
   - `template_include`: edit `single-product.php` and `archive-product.php` template path to `/resources/views/woocommerce/*.blade.php` (then retrieve controller data and render blade as usual)
   - `wc_get_template_part`: edit woocommerce template method to look for blade files then php files
   - `wc_get_template`: tell woocommerce to get template from `resources/views/`
-  - edit `single-product.php` and `archive-product` template path to `/resources/views/woocommerce/*.blade.php`
 - those templates includes woocommerce.blade.php templates
 - woocommerce.blade.php calls our overrided App\woocommerce_content(get_defined_vars()) that output woocommerce content
 

@@ -52,7 +52,6 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
 - few test with [SoberWP 2.0.1](https://github.com/soberwp/controller/releases)
   - Few errors as default Namespace changes from `\App` to `\App\Controller`
   - should be fixable when Sage update to SoberWP Controller `2.0.1`
-- test archive-product.blade.php and controller
 - Lot of Woocommerce features and templates (and controller variables passing) to test...
 - controllers variables to sub templates (& nested)
 

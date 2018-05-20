@@ -29,7 +29,10 @@ add_filter( 'template_include', function ( $template ) {
 /**
  * Render page using Blade
  * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
- * Changed: Woocommerce support to use .balde.php templates (from /resources/views thanks to our wc_get_template filter) or .php file
+ *
+ * Changed: locate blade or php template file and render it
+ * Triggers just before woocommerce actually render PHP template, but return blade and null, or php template like woocommerce would do
+ * wp-content/plugins/woocommerce/includes/wc-core-functions.php:l158
  */
 add_filter( 'wc_get_template_part', function ( $template, $slug, $name, $args ) {
 	$bladeTemplate = false;
@@ -43,8 +46,6 @@ add_filter( 'wc_get_template_part', function ( $template, $slug, $name, $args ) 
 	}
 	if ( $bladeTemplate ) {
 		echo template( $bladeTemplate, $args );
-		// Return a blank file to make WooCommerce happy
-		//return get_theme_file_path('index.php');
 		return null;
 	}
 	//try to look for PHP files within resources/views/woocommerce

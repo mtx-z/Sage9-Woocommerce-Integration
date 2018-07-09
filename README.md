@@ -21,6 +21,11 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
   - [github](https://github.com/MarekVrofski/Sage-Woocommerce) (much thanks again to [@MarekVrofski](https://github.com/MarekVrofski/) for his improvements)
   
 ## Changelog
+- 09/07/2018 - test in progress
+    - Sage 9.0.1
+    - Woocommerce 3.4.3
+    - [SoberWP controller 9.0.0-beta.4](https://github.com/soberwp/controller/releases) ([Sage 9.0.1 uses SoberWP controller 9.0.0-beta.4](https://github.com/roots/sage/blob/master/composer.json), not latest [SoberWP controller 2.0.1](https://github.com/soberwp/controller/releases))
+    - PHP 7.2.5 (fpm), Nginx, Debian (& Windows 10 - Laragon PHP 7.1)
 - 18/05/2018 - tested with
     - Woocommerce 3.3.5
     - Sage 9.0.1
@@ -60,6 +65,8 @@ How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
   - Checkout, My accounts, Emails, nested templates, Woocommerce plugins templates... need more tests
 - **Test** before usage in production (I do and it runs smoothly tho, but it's not a complex store)
 - still WIP, issues and improvement reports are welcomed !
+- `Notice` error about theme requiring `header.php` and `sidebar.php` as it's deprecated to be without since `3.0.0`, see [roots/sage@1620](https://github.com/roots/sage/issues/1620) 
+  - (`Theme without header.php is deprecated since version 3.0.0 with no alternative available. Please include a header.php/sidebar.php template in your theme. \wp-includes\functions.php`)
 
 ## DEBUG
 #### SoberWP

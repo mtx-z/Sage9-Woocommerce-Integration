@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
+ * 19.05.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
  *
  * changes: added 'resources/views/woocommerce' to paths array
  *

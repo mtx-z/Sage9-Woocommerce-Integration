@@ -1,6 +1,8 @@
 # Sage 9.0.1 Woocommerce (3.4.3) Integration
 How to use Woocommerce (3.4.3) with Sage 9.0.1 (Blade + SoberWP controllers), WP 4.9.7 (17/07/2018)
 
+Check dev branches for latest updates.
+
 ## Features
 - Includes: 
   - Blade Woocommerce templates

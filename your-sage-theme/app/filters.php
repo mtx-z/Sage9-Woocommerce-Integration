@@ -14,13 +14,13 @@ namespace App;
  *   - wp-content/plugins/woocommerce/includes/class-wc-template-loader.php l68 template_loader() calls ->
  *   - wp-content/plugins/woocommerce/includes/class-wc-template-loader.php l129 get_template_loader_files() that uses 'woocommerce_template_loader_files' filter
  *   - but in template_loader() the call to locate_template() fails to find our woo.blade.php... only a /resources/woocommerce.php because of STYLESHEETPATH & TEMPLATEPATH templating variables (wp-includes/default-constants.php l344)
+ *   - our override filter_templates() method will return a correct path for woocommerce.blade.php
  *
  * Added a comment here: https://github.com/roots/sage/issues/1429
  */
-add_filter( 'woocommerce_template_loader_files', function ( $default_file ) {
-	$default_file[] = 'views/woocommerce.blade.php';
-	return $default_file;
-}, PHP_INT_MAX );
+add_filter( 'woocommerce_template_loader_files', function ( $templates, $default_file ) {
+	return filter_templates(array_merge($templates, array_filter([$default_file, 'woocommerce'])));
+}, PHP_INT_MAX, 2 );
 
 /**
  * Render page using Blade (and get data from controller from sage/template/{$class}/data filter)

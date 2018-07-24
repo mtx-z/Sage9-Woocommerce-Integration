@@ -1,5 +1,7 @@
-# Sage 9.0.1 Woocommerce (3.3.5) Integration
-How to use Woocommerce (3.3.5) with Sage 9.0.1 (Blade + SoberWP controllers)
+# Sage 9.0.1 Woocommerce (3.4.3) Integration
+How to use Woocommerce (3.4.3) with Sage 9.0.1 (Blade + SoberWP controllers), WP 4.9.7 (17/07/2018)
+
+Check dev branches for latest updates.
 
 Check dev branches for latest updates.
 
@@ -21,21 +23,33 @@ Check dev branches for latest updates.
   - [discourse.roots.io](https://discourse.roots.io/t/woocommerce-blade-sage-9/8449/17)
   - [discourse.roots.io](https://discourse.roots.io/t/any-working-example-of-sage-9-latest-sage-9-0-0-beta-4-with-woocommerce-3-1-1/10099/17)
   - [github](https://github.com/MarekVrofski/Sage-Woocommerce) (much thanks again to [@MarekVrofski](https://github.com/MarekVrofski/) for his improvements)
-  
+  - [github sage PR](https://github.com/roots/sage/pull/1923)
+
 ## Changelog
-- 09/07/2018 - test in progress
+- 17/07/2018 - test still in progress
     - Sage 9.0.1
     - Woocommerce 3.4.3
     - [SoberWP controller 9.0.0-beta.4](https://github.com/soberwp/controller/releases) ([Sage 9.0.1 uses SoberWP controller 9.0.0-beta.4](https://github.com/roots/sage/blob/master/composer.json), not latest [SoberWP controller 2.0.1](https://github.com/soberwp/controller/releases))
     - PHP 7.2.5 (fpm), Nginx, Debian (& Windows 10 - Laragon PHP 7.1)
+    - Something changed, Woocommerce didn't use anymore our `woocommerce.blade.php`. Had to force the template path into the Woocommerce default template array. See `woocommerce_template_loader_files` filter code comment in `filters.php`
 - 18/05/2018 - tested with
     - Woocommerce 3.3.5
     - Sage 9.0.1
     - [SoberWP controller 9.0.0-beta.4](https://github.com/soberwp/controller/releases) ([Sage 9.0.1 uses SoberWP controller 9.0.0-beta.4](https://github.com/roots/sage/blob/master/composer.json), not latest [SoberWP controller 2.0.1](https://github.com/soberwp/controller/releases))
     - PHP 7.2.5 (fpm), Nginx, Debian (& Windows 10 - Laragon PHP 7.1)
-    
+
+## What I usualy do
+
+**Editing shop page**
+
+- I prefer not use the default woocommerce shop page. So I do my own template/controller (wp_query) and pagination (will publish soon, really easy) and redirect official shop page to this custom one. As this template is mostly managed by our App\woocommerce_content() and sub-templated. But it is doable, updating woocommerce_content and related sub-template. Longer maybe ? Cleaner for sure :)
+- Single product page, my account, checkout templates should be easy to override
+- I'll publish another repo with "how to's" and helpers for Sage (time, time, time...)
+
+
 ## How
 ### Blade for Woocommerce
+- Since V1.1, we force `/resources/views/woocommerce.blade.php` as first in woocommerce default template file array (see changelog)
 - we add_filter on 
   - `template_include`: edit `single-product.php` and `archive-product.php` template path to `/resources/views/woocommerce/*.blade.php` (then retrieve controller data and render blade as usual)
   - `wc_get_template_part`: edit woocommerce template method to look for blade files then php files

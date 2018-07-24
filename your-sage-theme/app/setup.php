@@ -9,7 +9,7 @@ namespace App;
 add_action('after_setup_theme', function () {
 	/**
 	 * ...Add following to the existing add_action('after_setup_theme')
-     * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
+     * 19.05.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
 	 */
     add_theme_support('woocommerce');
 	/**
@@ -23,9 +23,12 @@ add_action('after_setup_theme', function () {
  * which people can add to their themes to add basic woocommerce support.
  * without hooks or modifying core templates.
  *
- * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
+ * 17.07.18: tested, required and updated for Woocommerce 3.4.3 integration with sage 9.0.1 (WP 4.9.7)
+ * 19.05.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
  * Changed: added $args parameter, and edited wc_get_template_part() to use $args
- * from: wp-content/plugins/woocommerce/includes/wc-template-functions.php:l549 (v3.3.5)
+ *
+ * from: wp-content/plugins/woocommerce/includes/wc-template-functions.php:l863 (Woo v3.4.3)
+ * from: wp-content/plugins/woocommerce/includes/wc-template-functions.php:l549 (Woo v3.3.5)
  */
 function woocommerce_content($args = [])
 {
@@ -47,7 +50,7 @@ function woocommerce_content($args = [])
 
 		<?php do_action( 'woocommerce_archive_description' ); ?>
 
-		<?php if ( have_posts() ) : ?>
+		<?php if ( woocommerce_product_loop() ) : ?>
 
 			<?php do_action( 'woocommerce_before_shop_loop' ); ?>
 

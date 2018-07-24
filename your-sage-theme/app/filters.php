@@ -3,8 +3,28 @@
 namespace App;
 
 /**
+ * Use our woocommerce.blade.php as default woocommerce root template
+ * 17.07.18: tested and required for Woocommerce 3.4.3 integration with sage 9.0.1 (WP 4.9.7)
+ *
+ * It seems that since woocommerce 3.4.X (not sure since, but was not needed on my latest tests):
+ * - woocommerce don't see our /ressources/views/woocommerce.blade.php
+ * - it search and correctly find a /ressources/woocommerce.php
+ * And so, you got your resources/views/content-single-product.blade.php working, but not using your blade app main layout
+ * - here we put the path of our 'woocommerce.blade.php' as first into the Woocommerce default template array
+ *   - wp-content/plugins/woocommerce/includes/class-wc-template-loader.php l68 template_loader() calls ->
+ *   - wp-content/plugins/woocommerce/includes/class-wc-template-loader.php l129 get_template_loader_files() that uses 'woocommerce_template_loader_files' filter
+ *   - but in template_loader() the call to locate_template() fails to find our woo.blade.php... only a /resources/woocommerce.php because of STYLESHEETPATH & TEMPLATEPATH templating variables (wp-includes/default-constants.php l344)
+ *   - our override filter_templates() method will return a correct path for woocommerce.blade.php
+ *
+ * Added a comment here: https://github.com/roots/sage/issues/1429
+ */
+add_filter( 'woocommerce_template_loader_files', function ( $templates, $default_file ) {
+	return filter_templates(array_merge($templates, array_filter([$default_file, 'woocommerce'])));
+}, PHP_INT_MAX, 2 );
+
+/**
  * Render page using Blade (and get data from controller from sage/template/{$class}/data filter)
- * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
+ * 19.05.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
  * Changed: fix for single-product.php and archive-product to get correct template
  * todo: is there other "woocommerce root" template that should be hot fixed here ?
  */
@@ -28,7 +48,7 @@ add_filter( 'template_include', function ( $template ) {
 
 /**
  * Render page using Blade
- * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
+ * 19.05.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
  * Changed: locate blade or php template file and render it
  * Triggers just before woocommerce actually render PHP template, but return blade and null, or php template like woocommerce would do
  * wp-content/plugins/woocommerce/includes/wc-core-functions.php:l158
@@ -65,7 +85,7 @@ add_filter( 'wc_get_template_part', function ( $template, $slug, $name, $args = 
 
 /**
  * Render woocommerce template parts using Blade
- * 19.25.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
+ * 19.05.18: tested and required for Woocommerce 3.3.5 integration with sage 9.0.1
  * Changed: Woocommerce support to use resources/views/woocommerce/* templates when using template parts
  * (wc_get_template_part & template_include filters will search for .blade.php)
  */

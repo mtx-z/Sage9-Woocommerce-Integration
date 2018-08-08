@@ -24,6 +24,7 @@ Check previous release if error with latest.
   - [discourse.roots.io](https://discourse.roots.io/t/any-working-example-of-sage-9-latest-sage-9-0-0-beta-4-with-woocommerce-3-1-1/10099/17)
   - [github](https://github.com/MarekVrofski/Sage-Woocommerce) (much thanks again to [@MarekVrofski](https://github.com/MarekVrofski/) for his improvements)
   - [github sage PR](https://github.com/roots/sage/pull/1923)
+  - [github](https://github.com/roots/sage-woocommerce)
 
 ## Changelog
 - 17/07/2018 - test still in progress

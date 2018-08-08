@@ -89,7 +89,7 @@ add_filter( 'wc_get_template_part', function ( $template, $slug, $name, $args = 
  * Changed: Woocommerce support to use resources/views/woocommerce/* templates when using template parts
  * (wc_get_template_part & template_include filters will search for .blade.php)
  */
-add_filter( 'wc_get_template', function ( $located, $template_name, $args, $template_path, $default_path ) {
+add_filter( 'wc_get_template', function ( $located, $template_name, $args = [], $template_path, $default_path ) {
 	$bladeTemplate = locate_template( [ $template_name, 'resources/views/' . WC()->template_path() . $template_name ] );
 	if ( $bladeTemplate ) {
 		return template_path( $bladeTemplate, $args );
